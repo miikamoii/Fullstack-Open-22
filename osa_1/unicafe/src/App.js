@@ -7,6 +7,26 @@ const Button = (props) => {
   </button>
   )
 }
+
+const Statistics = (props) => {
+  if (props.allClicks == 0) {
+    return(
+      <p>No feedback given</p>
+    )
+  }
+  else
+  return(
+  <div>
+    <DisplayGood good={props.good}/>
+    <DisplayNeutral neutral={props.neutral}/>
+    <DisplayBad bad={props.bad}/>
+    <DisplayAll allClicks={props.allClicks}/>
+    <DisplayAverage goodScore={props.good} badScore={props.bad} allClicks={props.allClicks}/>
+    <DisplayPositive goodScore={props.good} allClicks={props.allClicks}/>
+  </div>
+  )
+}
+
 const DisplayGood = (props) => {
   return (
     <p>Good: {props.good}</p>
@@ -96,12 +116,7 @@ const App = () => {
         <h1>Statistics</h1>
       </div>
       <div>
-        <DisplayGood good={good}/>
-        <DisplayNeutral neutral={neutral}/>
-        <DisplayBad bad={bad}/>
-        <DisplayAll allClicks={allClicks}/>
-        <DisplayAverage goodScore={good} badScore={bad} allClicks={allClicks}/>
-        <DisplayPositive goodScore={good} allClicks={allClicks}/>
+        <Statistics good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
       </div>
     </div>
     
