@@ -13,44 +13,44 @@ const StatisticLine = ({text, value, good, neutral, bad, allClicks}) => {
   switch (value) {
     case "good":
       return(
-      <div>
-        {text} <DisplayGood good={good}/>
-      </div>
+      <tr>
+        <td>{text}</td><td><DisplayGood good={good}/></td>
+      </tr>
       )
 
     case "neutral":
       return(
-        <div>
-          {text} <DisplayNeutral neutral={neutral}/>
-        </div>
+        <tr>
+          <td>{text}</td><td><DisplayNeutral neutral={neutral}/></td>
+        </tr>
         )
 
     case "bad":
       return(
-        <div>
-          {text} <DisplayBad bad={bad}/>
-        </div>
+        <tr>
+          <td>{text}</td><td><DisplayBad bad={bad}/></td>
+        </tr>
         )
 
     case "total":
       return(
-        <div>
-          {text} <DisplayAll allClicks={allClicks}/>
-        </div>
+        <tr>
+          <td>{text}</td><td><DisplayAll allClicks={allClicks}/></td>
+        </tr>
         )
 
     case "average":
       return(
-        <div>
-          {text} <DisplayAverage goodScore={good} badScore={bad} allClicks={allClicks}/>
-        </div>
+        <tr>
+          <td>{text}</td><td><DisplayAverage goodScore={good} badScore={bad} allClicks={allClicks}/></td>
+        </tr>
         )
     
     case "positive":
       return(
-        <div>
-          {text} <DisplayPositive goodScore={good} allClicks={allClicks}/>
-        </div>
+        <tr>
+          <td>{text}</td><td><DisplayPositive goodScore={good} allClicks={allClicks}/></td>
+        </tr>
         )
     
     default:
@@ -63,20 +63,20 @@ const Statistics = ({ good, neutral, bad, allClicks }) => {
 
   if (allClicks == 0) {
     return(
-      <p>No feedback given</p>
+      <tbody><tr><td>No feedback given</td></tr></tbody>
     )
   }
 
   else
   return(
-  <div>
-    <StatisticLine text={"Good:"} value={"good"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-    <StatisticLine text={"Neutral:"} value={"neutral"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-    <StatisticLine text={"Bad:"} value={"bad"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-    <StatisticLine text={"Total:"} value={"total"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-    <StatisticLine text={"Average:"} value={"average"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-    <StatisticLine text={"Positive:"} value={"positive"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-  </div>
+    <tbody>
+      <StatisticLine text={"Good:"} value={"good"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
+      <StatisticLine text={"Neutral:"} value={"neutral"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
+      <StatisticLine text={"Bad:"} value={"bad"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
+      <StatisticLine text={"Total:"} value={"total"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
+      <StatisticLine text={"Average:"} value={"average"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
+      <StatisticLine text={"Positive:"} value={"positive"} good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
+    </tbody>
   )
 }
 
@@ -156,9 +156,9 @@ const App = () => {
       <div>
         <h1>Statistics</h1>
       </div>
-      <div>
+      <table>
         <Statistics good={good} neutral={neutral} bad={bad} allClicks={allClicks}/>
-      </div>
+      </table>
     </div>
     
   )
