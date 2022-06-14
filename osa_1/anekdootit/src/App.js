@@ -31,6 +31,47 @@ const DisplayVote = ( {voteArray, selected }) => {
   )
 }
 
+function returnMaxIndex (voteArray) {
+  const copy = [...voteArray]
+  var i = 0
+  var j = 0
+  var index = 0
+
+  copy.forEach(element => {
+    if (element > i) {
+      i = element
+      index = j
+    }
+    j++
+  });
+  console.log(index)
+  return index
+}
+
+function returnMaxVotes (voteArray) {
+  const copy = [...voteArray]
+  var i = 0
+
+  copy.forEach(element => {
+    if (element > i) {
+      i = element
+    }
+  });
+  return i
+}
+
+const DisplayMaxVote = ({anecdotes, index}) => {
+  console.log(voteArray)
+  console.log(index)
+  return(
+    <div>
+      <h1>Most votes: </h1>
+      <p>{anecdotes[index]}</p>
+      <p>Votes: {returnMaxVotes(voteArray)}</p>
+    </div>
+  )
+}
+
 const App = () => {
           
   const [selected, setSelected] = useState(0)
@@ -39,14 +80,17 @@ const App = () => {
 
   return (
     <div>
-    <Button text={"Click for a random anecdote"} 
-    handleClick={() => setSelected(getRandomInt(0, 7))}>
-    </Button>
-    <Button text={"Vote"} 
-    handleClick={() => setVotes(voteArray[selected] += 1)}/>
+    <h1>Random anecdote generator</h1>
       <div>
         <p>{anecdotes[selected]}</p>
+        <Button text={"Click for a random anecdote"} 
+          handleClick={() => setSelected(getRandomInt(0, 7))}
+        />
+        <Button text={"Vote"} 
+          handleClick={() => setVotes(voteArray[selected] += 1)}
+        />
         <DisplayVote voteArray={voteArray} selected={selected}></DisplayVote>
+        <DisplayMaxVote anecdotes={anecdotes} index={returnMaxIndex(voteArray)}></DisplayMaxVote>
       </div>
     </div>
   )
