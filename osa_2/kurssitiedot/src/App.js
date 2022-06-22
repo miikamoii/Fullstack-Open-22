@@ -17,6 +17,11 @@ const App = () => {
         name: 'State of a component',
         id: 3,
         exercises: 14
+      },
+      {
+        name: 'Testikurssi',
+        id: 4,
+        exercises: 11
       }
     ]
   }
@@ -29,7 +34,7 @@ const App = () => {
         )
     }
 
-    const Content = ({ parts }) => {
+    const Content = ({}) => {
       return(
         <div>
           {course.parts.map(part => 
@@ -49,9 +54,16 @@ const App = () => {
 }
 
   const Total = () => {
+    const result = course.parts.map(part => part.exercises)
+
+    var i = 0
+    result.forEach(exercise => {
+      i += exercise
+    });
+
     return (
     <div>
-      <p>Number of excercises {course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}</p>
+      <b>Total of exercises {i}</b>
     </div>
     )
   }
@@ -59,6 +71,7 @@ const App = () => {
   return (
     <div>
       <Course course={course}></Course>
+      <Total></Total>
     </div>
   )
 }
