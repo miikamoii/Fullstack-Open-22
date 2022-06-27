@@ -53,20 +53,19 @@ const App = () => {
     )
 }
 
-  const Total = () => {
-    const result = course.parts.map(part => part.exercises)
-
-    var i = 0
-    result.forEach(exercise => {
-      i += exercise
-    });
-
-    return (
+const Total = () => {
+  const total = Object.keys(course.parts).reduce((previous, key) => {
+    return previous + course.parts[key].exercises;
+  }, 0);
+  return(
     <div>
-      <b>Total of exercises {i}</b>
+      <b>Total of exercises: {total}</b>
     </div>
-    )
-  }
+  )
+}
+
+
+  
 
   return (
     <div>
@@ -75,5 +74,4 @@ const App = () => {
     </div>
   )
 }
-
 export default App
