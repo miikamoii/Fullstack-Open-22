@@ -1,30 +1,48 @@
 const App = () => {
-  const course = {
-    name: 'Half Stack application development',
-    id: 1,
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        id: 1,
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data',
-        id: 2,
-        exercises: 7
-      },
-      {
-        name: 'State of a component',
-        id: 3,
-        exercises: 14
-      },
-      {
-        name: 'Testikurssi',
-        id: 4,
-        exercises: 11
-      }
-    ]
-  }
+  const course = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    }, 
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
   const Course = ({ course }) =>  {
 
@@ -53,7 +71,7 @@ const App = () => {
     )
 }
 
-const Total = () => {
+const Total = ( {course} ) => {
   const total = Object.keys(course.parts).reduce((previous, key) => {
     return previous + course.parts[key].exercises;
   }, 0);
@@ -64,13 +82,12 @@ const Total = () => {
   )
 }
 
-
-  
-
   return (
     <div>
-      <Course course={course}></Course>
-      <Total></Total>
+      <Course course={course[0]}></Course>
+      <Total course={course[0]}></Total>
+      <Course course={course[1]}></Course>
+      <Total course={course[1]}></Total>
     </div>
   )
 }
