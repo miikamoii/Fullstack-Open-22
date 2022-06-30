@@ -8,21 +8,19 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ])
 
-  //id:t henkilöille
-  persons.forEach((item, i) => {
-    item.id = i + 1;
+  persons.forEach((person, i) => {
+    person.id = i + 1;
   })
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [inputText, setInputText] = useState("");
+
+
   let inputHandler = (e) => {
-    //convert input text to lower case
     var lowerCase = e.target.value.toLowerCase();
     setInputText(lowerCase);
-
-  
-}
+  }
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -45,8 +43,6 @@ const App = () => {
     }
   }
 
-  console.log(persons)
-
   const handlePersonChange = (event) => {
     setNewName(event.target.value)
   }
@@ -56,16 +52,13 @@ const App = () => {
   }
 
   function List(props) {
-    //create a new array by filtering the original array
-    const filteredData = persons.filter((el) => {
-        //if no input the return the original
-        if (props.input === '') {
-            return el;
-        }
-        //return the item which contains the user input
-        else {
-            return el.name.toLowerCase().includes(props.input)
-        }
+    const filteredData = persons.filter((person) => {
+      if (props.input === '') {
+        return person;
+      }
+      else {
+        return person.name.toLowerCase().includes(props.input)
+      }
     })
     return (
       <ul>
@@ -76,13 +69,13 @@ const App = () => {
         ))}
       </ul>
     )
-}
+  }
 
   return (
     <div>
       <h1>Phonebook</h1>
       <div>
-      <p><label>Search <input onChange={inputHandler} type="text"></input></label></p>
+        <p><label>Search <input onChange={inputHandler} type="text"></input></label></p>
       </div>
       <h2>Add new </h2>
       <form onSubmit={addPerson}>
@@ -103,7 +96,7 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-      <List input={inputText}/>
+        <List input={inputText} />
       </div>
       {/* <div>
         {persons.map(person =>
