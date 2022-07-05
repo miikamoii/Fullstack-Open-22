@@ -1,5 +1,13 @@
 import { useState } from 'react'
 
+import List from './components/List'
+
+import AddPerson from './components/AddPerson'
+
+import { inputHandler } from './components/Handlers'
+import { handlePersonChange } from './components/Handlers'
+import { handleNumberChange } from './components/Handlers'
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -16,77 +24,35 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [inputText, setInputText] = useState("");
 
-
-  let inputHandler = (e) => {
-    var lowerCase = e.target.value.toLowerCase();
-    setInputText(lowerCase);
-  }
-
-  const addPerson = (event) => {
-    event.preventDefault()
-    const personObject = {
-      name: newName,
-      number: newNumber,
-      id: persons.length + 1,
-    }
-
-    if (persons.some(element => element.name === newName)) {
-      alert(newName + " is already in the phonebook")
-      setNewName("")
-      setNewNumber("")
-    }
-    else {
-      console.log("Name was added " + newName)
-      setPersons(persons.concat(personObject))
-      setNewName("")
-      setNewNumber("")
-    }
-  }
-
-  const handlePersonChange = (event) => {
-    setNewName(event.target.value)
-  }
-
-  const handleNumberChange = (event) => {
-    setNewNumber(event.target.value)
-  }
-
-  function List(props) {
-    const filteredData = persons.filter((person) => {
-      if (props.input === '') {
-        return person;
-      }
-      else {
-        return person.name.toLowerCase().includes(props.input)
-      }
-    })
-    return (
-      <ul>
-        {filteredData.map((person) => (
-          <p key={person.id}>
-            {person.id}: {person.name} {person.number}
-          </p>
-        ))}
-      </ul>
-    )
-  }
-
+  
   return (
     <div>
       <h1>Phonebook</h1>
       <div>
-        <p><label>Search <input onChange={inputHandler} type="text"></input></label></p>
+        <p><label>Search <input onChange={(event) => {
+          event.preventDefault();
+          inputHandler(event, setInputText)
+
+        }} type="text"></input></label></p>
       </div>
       <h2>Add new </h2>
-      <form onSubmit={addPerson}>
+      <form onSubmit={ (event) => {
+        event.preventDefault();
+        AddPerson({newName, setNewName, newNumber, setNewNumber, persons, setPersons})
+      }}>
         <div>
           name: <input
             value={newName}
-            onChange={handlePersonChange}
+            onChange={(event) => {
+              event.preventDefault();
+              handlePersonChange(event, setNewName)
+            }}
           />
           <div>
             number: <input value={newNumber}
-              onChange={handleNumberChange}
+              onChange={(event) => {
+                handleNumberChange(event, setNewNumber)
+              }}
             />
           </div>
         </div>
@@ -96,14 +62,8 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        <List input={inputText} />
+        <List input={inputText} persons={persons}/>
       </div>
-      {/* <div>
-        {persons.map(person =>
-          <p key={person.id}>
-            {person.id}: {person.name} {person.number}
-          </p>)}
-      </div> */}
       ...
     </div>
   )
