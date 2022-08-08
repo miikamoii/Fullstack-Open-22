@@ -1,3 +1,5 @@
+import personService from "../services/persons"
+
 const AddPerson = ({newName, setNewName, newNumber, setNewNumber, persons, setPersons}) => {
         
     const personObject = {
@@ -13,9 +15,13 @@ const AddPerson = ({newName, setNewName, newNumber, setNewNumber, persons, setPe
     }
     else {
       console.log("Name was added " + newName)
-      setPersons(persons.concat(personObject))
-      setNewName("")
-      setNewNumber("")
+      personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName("")
+        setNewNumber("")
+      })
     }
   }
 
