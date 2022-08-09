@@ -1,4 +1,6 @@
-function List({input, persons}) {
+import personService from "../services/persons"
+
+function List({input, persons, removePerson}) {
     const filteredData = persons.filter((person) => {
       if (input === '') {
         return person;
@@ -7,11 +9,12 @@ function List({input, persons}) {
         return person.name.toLowerCase().includes(input)
       }
     })
+
     return (
       <ul>
         {filteredData.map((person) => (
           <p key={person.id}>
-            {person.id}: {person.name} {person.number}
+            {person.id}: {person.name} {person.number} <button onClick={() => removePerson(person.id)}>Remove</button>
           </p>
         ))}
       </ul>
@@ -19,3 +22,13 @@ function List({input, persons}) {
   }
 
   export default List
+
+  /*
+  <button 
+          onClick={
+            if(window.confirm("Do you want to remove " + person.name + "?")) {
+              personService
+                .remove(id)
+                .then(setPersons(persons.filter(p => p.id !== id)))
+            }}>
+            */

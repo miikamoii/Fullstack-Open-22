@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+import personService from "./services/persons"
 import List from './components/List'
 
 import AddPerson from './components/AddPerson'
@@ -23,9 +24,26 @@ const App = () => {
 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState("")
 
-  
+  const removePerson = (id) => {
+    console.log("Removal ID is " + id)
+    const personObject = persons.find(p => p.id === id) 
+    console.log(personObject)
+    const person = personObject.name
+
+    //jatka tästä (removePerson)
+    if (window.confirm("Do you want to remove " + person + "?")) {
+      personService
+        .remove(id)
+        .then(setPersons(persons.filter(p => p.id !== id)))
+    console.log(person + " removed")
+    }
+    else
+      console.log("Remove canceled")
+  }
+
+
   return (
     <div>
       <h1>Phonebook</h1>
@@ -63,7 +81,11 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        <List input={inputText} persons={persons}/>
+        <List 
+        input={inputText} 
+        persons={persons} 
+        removePerson={(id) => removePerson(id)}
+        />
       </div>
       ...
     </div>
