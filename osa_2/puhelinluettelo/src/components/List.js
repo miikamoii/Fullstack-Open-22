@@ -1,5 +1,3 @@
-import personService from "../services/persons"
-
 function List({input, persons, removePerson}) {
     const filteredData = persons.filter((person) => {
       if (input === '') {
@@ -22,13 +20,3 @@ function List({input, persons, removePerson}) {
   }
 
   export default List
-
-  /*
-  <button 
-          onClick={
-            if(window.confirm("Do you want to remove " + person.name + "?")) {
-              personService
-                .remove(id)
-                .then(setPersons(persons.filter(p => p.id !== id)))
-            }}>
-            */
