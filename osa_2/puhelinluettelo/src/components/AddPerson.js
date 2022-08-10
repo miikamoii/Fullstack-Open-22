@@ -1,6 +1,10 @@
 import personService from "../services/persons"
+import Notification from "./Notification"
 
-const AddPerson = ({ newName, setNewName, newNumber, setNewNumber, persons, setPersons }) => {
+const AddPerson = ({ 
+  newName, setNewName, newNumber, 
+  setNewNumber, persons, setPersons,
+  notificationMessage, setNotificationMessage }) => {
 
   const updatePerson = (id, newNumber) => {
     const person = persons.find(p => p.id === id)
@@ -27,11 +31,15 @@ const AddPerson = ({ newName, setNewName, newNumber, setNewNumber, persons, setP
   if (persons.some(element => element.name === newName)) {
     let person = persons.find(person => person.name === newName)
     let currId = person.id
-    //alert(newName + " is already in the phonebook")
+    
     if (window.confirm(newName + " is already in the phonebook, replace old number with a new one?")) {
       updatePerson(currId, newNumber)
       setNewName("")
       setNewNumber("")
+      setNotificationMessage(newName + "'s number was updated")
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
     }
     else {
       setNewName("")
@@ -40,6 +48,10 @@ const AddPerson = ({ newName, setNewName, newNumber, setNewNumber, persons, setP
   }
   else {
     console.log("Name was added " + newName)
+    setNotificationMessage(newName + " was added")
+    setTimeout(() => {
+      setNotificationMessage(null)
+    }, 5000)
     personService
       .create(personObject)
       .then(returnedPerson => {

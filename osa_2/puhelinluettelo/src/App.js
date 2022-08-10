@@ -5,6 +5,7 @@ import personService from "./services/persons"
 import List from './components/List'
 
 import AddPerson from './components/AddPerson'
+import Notification from './components/Notification'
 
 import { inputHandler } from './components/Handlers'
 import { handlePersonChange } from './components/Handlers'
@@ -25,15 +26,18 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [inputText, setInputText] = useState("")
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   const removePerson = (id) => {
-    console.log("Removal ID is " + id)
     const personObject = persons.find(p => p.id === id) 
     console.log(personObject)
     const person = personObject.name
 
-    //jatka tästä (removePerson)
     if (window.confirm("Do you want to remove " + person + "?")) {
+      setNotificationMessage(person + " was removed")
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)
       personService
         .remove(id)
         .then(setPersons(persons.filter(p => p.id !== id)))
@@ -47,6 +51,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notificationMessage} />
       <div>
         <p><label>Search <input onChange={(event) => {
           event.preventDefault();
@@ -55,9 +60,9 @@ const App = () => {
         }} type="text"></input></label></p>
       </div>
       <h2>Add new </h2>
-      <form onSubmit={ (event) => {
+      <form onSubmit={(event) => {
         event.preventDefault();
-        AddPerson({newName, setNewName, newNumber, setNewNumber, persons, setPersons})
+        AddPerson({ newName, setNewName, newNumber, setNewNumber, persons, setPersons, notificationMessage, setNotificationMessage })
       }}>
         <div>
           name: <input
@@ -81,10 +86,10 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       <div>
-        <List 
-        input={inputText} 
-        persons={persons} 
-        removePerson={(id) => removePerson(id)}
+        <List
+          input={inputText}
+          persons={persons}
+          removePerson={(id) => removePerson(id)}
         />
       </div>
       ...
