@@ -1,10 +1,8 @@
 import personService from "../services/persons"
-import Notification from "./Notification"
 
 const AddPerson = ({ 
   newName, setNewName, newNumber, 
-  setNewNumber, persons, setPersons,
-  notificationMessage, setNotificationMessage }) => {
+  setNewNumber, persons, setPersons, setNotificationMessage, setIsError }) => {
 
   const updatePerson = (id, newNumber) => {
     const person = persons.find(p => p.id === id)
@@ -14,6 +12,14 @@ const AddPerson = ({
       .update(id, changedPerson)
       .then(returnedPerson => {
         setPersons(persons.map(person => person.id !== id ? person : returnedPerson))
+      })
+      .catch(error => {
+        setIsError(true)
+        setNotificationMessage(person.name + " has already been removed from database")
+        setTimeout(() => {
+          setNotificationMessage(null)
+      }, 5000)
+      setIsError(false)
       })
   }
 

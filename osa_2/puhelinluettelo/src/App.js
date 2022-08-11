@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import personService from "./services/persons"
 import List from './components/List'
-
 import AddPerson from './components/AddPerson'
+import personService from "./services/persons"
 import Notification from './components/Notification'
-
-import { inputHandler } from './components/Handlers'
-import { handlePersonChange } from './components/Handlers'
-import { handleNumberChange } from './components/Handlers'
+import { inputHandler, handlePersonChange, handleNumberChange} from './components/Handlers'
 
 const App = () => {
+
   const [persons, setPersons] = useState([])
 
   useEffect(() => {
@@ -27,6 +24,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [inputText, setInputText] = useState("")
   const [notificationMessage, setNotificationMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
   const removePerson = (id) => {
     const personObject = persons.find(p => p.id === id) 
@@ -47,22 +45,24 @@ const App = () => {
       console.log("Remove canceled")
   }
 
-
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={notificationMessage} />
+      <Notification isError={isError} message={notificationMessage}/>
       <div>
         <p><label>Search <input onChange={(event) => {
           event.preventDefault();
           inputHandler(event, setInputText)
-
         }} type="text"></input></label></p>
       </div>
       <h2>Add new </h2>
       <form onSubmit={(event) => {
         event.preventDefault();
-        AddPerson({ newName, setNewName, newNumber, setNewNumber, persons, setPersons, notificationMessage, setNotificationMessage })
+        AddPerson({
+          newName, setNewName, newNumber, 
+          setNewNumber, persons, setPersons, 
+          setNotificationMessage, setIsError 
+          })
       }}>
         <div>
           name: <input
