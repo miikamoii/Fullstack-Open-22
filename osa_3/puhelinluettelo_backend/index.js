@@ -72,6 +72,12 @@ app.post("/api/persons", (req, res) => {
         return res.status(400).json({
             error: "name or number missing"
         })
+    } 
+
+    if (persons.some(person => person.name === body.name)) {
+        return res.status(400).json({
+            error: "name is already in use"
+        })
     }
 
     const person = {
