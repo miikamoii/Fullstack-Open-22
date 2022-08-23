@@ -19,10 +19,10 @@ const App = () => {
   const addNote = (event) => {
     event.preventDefault()
     const noteObject = {
+      id: notes.length + 1,
       content: newNote,
       date: new Date().toISOString(),
-      important: Math.random() > 0.5,
-      id: notes.length + 1,
+      important: Math.random() > 0.5
     }
 
     noteService
