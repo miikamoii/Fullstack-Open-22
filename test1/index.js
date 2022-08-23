@@ -71,10 +71,10 @@ app.post("/api/notes", (req, res) => {
     }
 
     const note = {
+        id: generateId(),
         content: body.content,
         important: body.important || false,
-        date: new Date(),
-        id: generateId()
+        date: new Date()
     }
 
     notes = notes.concat(note)
