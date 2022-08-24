@@ -1,5 +1,7 @@
+require("dotenv").config()
 const express = require('express')
 const app = express()
+const Note = require("./models/note")
 
 let notes = [
   {
@@ -78,7 +80,7 @@ app.get('/api/notes/:id', (request, response) => {
   }
 })
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
