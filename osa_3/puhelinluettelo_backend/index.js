@@ -29,12 +29,18 @@ const persons = app.get("/api/persons", (req, res) => {
 })
 
 app.get("/info", (req, res) => {
-    res.writeHead(200, { "Content-Type": "text/plain" })
-    res.end
-        (
-            "Phonebook has info for " + persons.length + " people\n"
-            + new Date()
-        )
+    var x = 0
+    var query = Person.find()
+    query.count(function (err, count) {
+        if (err) console.log(err)
+        else x = count
+        res.writeHead(200, { "Content-Type": "text/plain" })
+        res.end
+            (
+                "Phonebook has info for " + x + " people\n"
+                + new Date()
+            )
+    })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
