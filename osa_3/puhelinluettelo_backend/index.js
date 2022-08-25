@@ -1,8 +1,8 @@
-require("dotenv").config()
 const express = require("express")
+const app = express()
 const morgan = require("morgan")
 const cors = require("cors")
-const app = express()
+require("dotenv").config()
 const Person = require("./models/person")
 
 morgan.token("body", req => {
@@ -22,12 +22,6 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time ms :b
 // POST /api/persons 200 61 - 4.896 ms {"name":"Liisa Marttinen", "number":"040-24567"}
 //:method :url :status :res[content-length] - :response-time ms :body
 
-//Jatka tästä, hakee oliot MongoDB:stä, mutta ei laita niitä "api/persons" -sivulle
-
-
-const randomId = () => Math.floor(Math.random() * 10000)
-
-
 const persons = app.get("/api/persons", (req, res) => {
     Person.find({}).then(person => {
         res.json(person)
@@ -43,26 +37,23 @@ app.get("/info", (req, res) => {
         )
 })
 
-app.get("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(person => person.id === id)
+app.get('/api/persons/:id', (request, response, next) => {  Person.findById(request.params.id)
+    .then(person => {
+      if (person) {
+        response.json(person)
+      } else {
+        response.status(404).end()
+      }
+    })
+    .catch(error => next(error))})
 
-    if (person) {
-        res.json(person)
-        console.log("person found")
-        console.log(person)
-    } else {
-        res.status(404).end()
-        console.log("person not found 404")
-    }
-})
-
-app.delete("/api/persons/:id", (req, res) => {
-    const id = Number(req.params.id)
-    persons = persons.filter(person => person.id !== id)
-
-    console.log("Person deleted, ID: " + id)
-    res.status(204).end()
+app.delete("/api/persons/:id", (req, res, next) => {
+    
+    Person.findByIdAndRemove(req.params.id)
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(error => next(error))
 })
 
 app.post("/api/persons", (req, res) => {
@@ -95,8 +86,7 @@ app.post("/api/persons", (req, res) => {
 
     const person = new Person({
         name: body.name,
-        number: body.number,
-        id: randomId()
+        number: body.number
     })
 
     person.save().then(savedPerson => {
