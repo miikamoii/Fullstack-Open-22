@@ -12,7 +12,7 @@ function List({input, persons, removePerson}) {
       <ul>
         {filteredData.map((person) => (
           <p key={person.id}>
-            {person.id}: {person.name} {person.number} <button onClick={() => removePerson(person.id)}>Remove</button>
+            {person.name} {person.number} <button onClick={() => removePerson(person.id)}>Remove</button>
           </p>
         ))}
       </ul>
