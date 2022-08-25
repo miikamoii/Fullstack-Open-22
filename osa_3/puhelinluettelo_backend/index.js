@@ -29,8 +29,8 @@ const randomId = () => Math.floor(Math.random() * 10000)
 
 
 const persons = app.get("/api/persons", (req, res) => {
-    Person.find({}).then(persons => {
-        res.json(persons)
+    Person.find({}).then(person => {
+        res.json(person)
     })
 })
 
@@ -75,21 +75,34 @@ app.post("/api/persons", (req, res) => {
         })
     } 
 
-    if (persons.some(person => person.name === body.name)) {
-        return res.status(400).json({
-            error: "name is already in use"
+    Person.find({}).then(persons => {
+        persons.forEach(person => {
+            if (person.name === body.name) {
+                return res.status(400).json({
+                    error: "name is already in use"
+                })
+            }
         })
-    }
+    })
 
-    const person = {
+    /* persons.forEach(person => {
+        if (person.name === body.name) {
+            return res.status(400).json({
+                error: "name is already in use"
+            })
+        }
+    }) */
+
+    const person = new Person({
         name: body.name,
         number: body.number,
         id: randomId()
-    }
+    })
 
-    persons = persons.concat(person)
-
-    res.json(person)
+    person.save().then(savedPerson => {
+        res.json(savedPerson)
+        console.log("Person saved to MongoDB")
+    })
 })
 
 const PORT = process.env.PORT || 3001
