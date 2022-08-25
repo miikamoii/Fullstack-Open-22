@@ -1,7 +1,9 @@
+require("dotenv").config()
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
 const app = express()
+const Person = require("./models/person")
 
 morgan.token("body", req => {
     return JSON.stringify(req.body)
@@ -20,35 +22,16 @@ app.use(morgan(":method :url :status :res[content-length] - :response-time ms :b
 // POST /api/persons 200 61 - 4.896 ms {"name":"Liisa Marttinen", "number":"040-24567"}
 //:method :url :status :res[content-length] - :response-time ms :body
 
+//Jatka tästä, hakee oliot MongoDB:stä, mutta ei laita niitä "api/persons" -sivulle
 
-let persons = [
-    {
-        name: "Arto Hellas",
-        number: "040-123456",
-        id: 1
-    },
-    {
-        name: "Ada Lovelace",
-        number: "39-44-5323523",
-        id: 2
-    },
-    {
-        name: "Dan Abramov",
-        number: "12-43-234345",
-        id: 3
-    },
-    {
-        name: "Mary Poppendieck",
-        number: "39-23-6423122",
-        id: 4
-    }
-]
 
 const randomId = () => Math.floor(Math.random() * 10000)
 
 
-app.get("/api/persons", (req, res) => {
-    res.json(persons)
+const persons = app.get("/api/persons", (req, res) => {
+    Person.find({}).then(persons => {
+        res.json(persons)
+    })
 })
 
 app.get("/info", (req, res) => {
